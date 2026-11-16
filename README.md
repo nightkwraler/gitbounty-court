@@ -38,75 +38,107 @@ tests/test_source_checks.py     Local source checks
 
 ## Quick start
 
+
 ### 1. Requirements
 
 - Python 3.12+
-- GenLayer Studio or the matching GenLayer CLI / SDK release
-- A funded testnet wallet for Bradbury deployment and transactions
-- GitHub public repository and pull request for evidence
-- Arkhai's official `git-commit-trading` / `git-escrows` tooling and a supported EVM test network for escrow
-- Node.js is optional for serving the static demo
+- Node.js 20+ and npm
+- GenLayer Studio and the GenLayerJS SDK
+- MetaMask browser extension
+- A funded wallet with the required GenLayer Studio testnet tokens
+- A public GitHub repository and pull request for evidence
+- Arkhai's official `git-commit-trading` / `git-escrows` tooling and a supported EVM test network for escrow integration
 
 ### 2. Validate the contract source locally
+
+Run these commands from the repository root:
 
 ```bash
 python scripts/validate_contract.py
 python -m unittest discover -s tests -v
 ```
 
-These checks validate the source shape only. They do not compile or deploy the contract.
+These checks validate the contract source structure and run the local test suite. They do not replace GenLayer Studio compilation or deployment.
 
-### 3. Deploy the Intelligent Contract
+### 3. Run the live frontend
 
-Open https://studio.genlayer.com/ or use the current GenLayer CLI workflow. For a real Bradbury deployment, follow the current official deployment guide and use a Phase-2-compatible GenLayer node RPC (not only the underlying chain RPC):
+From the repository root:
+
+```bash
+cd frontend
+npm ci
+npm run dev
+```
+
+Open the local URL printed by Vite, normally `http://localhost:5173`.
+
+Connect MetaMask to interact with the GitBounty Court dashboard. The frontend reads the deployed GenLayer contract and displays the bounty and latest court verdict.
+
+To create a production build:
+
+```bash
+npm run build
+```
+
+### 4. Deploy the Intelligent Contract
+
+The current GitBounty Court contract is deployed on GenLayer Studio Network.
+
+- Contract address: `0x48f711c6FeBB1f084D4861feCc2fdCFE38E11986`
+- Deployment transaction: `0xfbbf8a1ac48d7ebedbae0df632dd5a0f697b844d515e92976ad6fe1a98b3dab4`
+- Deployment status: FINALIZED
+
+For a fresh deployment, follow the official documentation:
+
 - https://docs.genlayer.com/developers/intelligent-contracts/deploying
 - https://docs.genlayer.com/developers/networks
 
-The current official docs distinguish the GenLayer node RPC (`gen_*` intelligent-contract operations) from the underlying chain RPC (`eth_*` operations). Bradbury chain RPC alone is not sufficient for Intelligent Contract calls.
+### 5. Configure a bounty
 
-**Studio schema troubleshooting:** first compile and run the contract on the stable environment supported by the current Studio release. Do not add an unverified dependency hash. Use the exact dependency metadata and runtime version documented by the current GenLayer release you are targeting.
+Call `configure_bounty(title, repo_owner, repo_name, acceptance_criteria)` on the deployed contract.
 
-After deployment, record:
-- network name and chain ID
-- contract address
-- deployment transaction hash
-- finalized execution result (not merely transaction finality)
-
-### 4. Configure a bounty
-
-Call `configure_bounty(title, repo_owner, repo_name, acceptance_criteria)` on the deployed contract. Use a public GitHub repository because the contract fetches the unauthenticated public GitHub REST API.
-
-### 5. Open the Arkhai escrow
-
-Follow Arkhai's official Git escrow instructions in `arkhai/README.md`. Save the escrow identifier, chain, token, amount, and creation transaction in your deal notes. Never paste a private key into the frontend or repository.
+Use a public GitHub repository because the contract fetches evidence through the public GitHub REST API.
 
 ### 6. Dispute and adjudicate
 
-When the contributor submits a PR and the client disputes completion, call:
+When a contributor submits a pull request and the client disputes completion, call:
 
 ```text
 adjudicate_pull_request(pr_number)
 ```
 
 The contract fetches:
+
 - `GET https://api.github.com/repos/{owner}/{repo}/pulls/{number}`
 - `GET https://api.github.com/repos/{owner}/{repo}/pulls/{number}/files`
 
-It evaluates the title, description, merge state, changed filenames, patch excerpts and acceptance criteria. It records a structured verdict as a string. Read `get_verdict()` after the transaction has finalized successfully.
+It evaluates the pull request title, description, merge state, changed filenames, patch excerpts, and acceptance criteria.
 
-### 7. Settlement
+The frontend allows a connected wallet to submit an adjudication transaction. Read `get_verdict()` after the transaction has finalized.
 
-A `APPROVE` verdict means the work met the rubric; a `REJECT` verdict means it did not; `INCONCLUSIVE` means evidence was insufficient. Settlement must be executed through the Arkhai escrow's configured arbiter/fulfillment path. For a fully automatic cross-chain demo, implement and test an authenticated relayer or supported Alkahest arbiter that consumes the finalized GenLayer verdict. Do not treat a browser-provided verdict as authority.
+### 7. Settlement and Arkhai integration
+
+A `APPROVE` verdict means the work met the agreed criteria. A `REJECT` verdict means it did not. `INCONCLUSIVE` means the evidence was insufficient.
+
+**Current integration status:**
+- GenLayer contract deployment: completed.
+- Live bounty and verdict reads: connected.
+- Wallet-based adjudication: connected and tested.
+- Arkhai escrow settlement: not yet integrated.
+
+A GenLayer verdict does not automatically transfer escrow funds. Settlement requires an authenticated integration with Arkhai's escrow arbiter or a supported relayer that verifies the finalized GenLayer verdict.
+
+See `arkhai/README.md` for the integration boundary and setup information.
 
 ## Security and demo limitations
 
-- This is a testnet demo, not a production escrow product.
-- The contract only fetches public GitHub PR evidence. It does not prove that every patch is safe, correct, or deployed.
-- GitHub API rate limits and transient API changes can cause adjudication to fail; retry only after checking the failed transaction receipt.
-- PR content is untrusted input. The prompt explicitly treats it as evidence, not instructions.
-- A public PR can change after adjudication. The contract stores the PR number and verdict; for production, also persist a content hash / commit SHA and a finalized evidence snapshot.
-- A GenLayer verdict is not itself an EVM escrow transfer. Cross-chain settlement requires a verifiable bridge/attestation/relayer or an Arkhai arbiter that can verify the verdict.
-- The demo UI is a visual prototype and must not be described as connected to live contracts until configured.
+- This is a testnet demonstration, not a production escrow product.
+- The contract fetches public GitHub pull request evidence. It does not prove that every patch is safe, correct, or deployed.
+- GitHub API rate limits and transient API changes can cause adjudication to fail.
+- Pull request content is untrusted evidence, not instructions.
+- A public pull request can change after adjudication. Production deployments should also persist a content hash, commit SHA, and finalized evidence snapshot.
+- A GenLayer verdict is not itself an EVM escrow transfer.
+- Never place wallet private keys or secrets in the frontend or public repository.
 
 ## Partner references
 
