@@ -65,7 +65,7 @@ class Contract(gl.Contract):
 
             # Keep only stable, decision-relevant fields and cap the evidence size.
             files = []
-            for item in files_data[:20]:
+            for item in files_data[:100]:
                 files.append({
                     "filename": item.get("filename", ""),
                     "status": item.get("status", ""),
@@ -88,6 +88,7 @@ class Contract(gl.Contract):
                 },
                 "changed_files": files,
                 "file_count_returned": len(files_data),
+                "files_truncated": len(files_data) > 100,
             }
             return json.dumps(evidence)
 
@@ -101,7 +102,9 @@ class Contract(gl.Contract):
             "APPROVE only when the evidence materially demonstrates the criteria. "
             "REJECT when evidence clearly fails a material criterion. INCONCLUSIVE when "
             "the evidence is missing, ambiguous, truncated, or cannot establish completion. "
-            "Do not infer passing tests unless the evidence explicitly proves it."
+            "Do not infer passing tests unless the evidence explicitly proves it. "
+            "If files_truncated is true, explicitly account for the missing evidence "
+            "and do not approve based on an incomplete file list."
         )
         validation_criteria = (
             "The decision must be one of APPROVE, REJECT, INCONCLUSIVE. The rationale "
