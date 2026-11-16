@@ -1,0 +1,50 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>GitBounty Court — Prototype Preview</title>
+<style>
+:root{color-scheme:dark;--bg:#090d16;--panel:#111827;--line:#263247;--muted:#93a4bb;--blue:#70a7ff;--amber:#ffc66d;--green:#7ce0b1}
+*{box-sizing:border-box}body{margin:0;background:radial-gradient(circle at 80% 0%,#172642 0,transparent 34%),var(--bg);color:#edf3fc;font:15px/1.5 Inter,ui-sans-serif,system-ui,sans-serif}
+main{max-width:1120px;margin:auto;padding:36px 24px 64px}.top{display:flex;justify-content:space-between;align-items:center;gap:20px;border-bottom:1px solid var(--line);padding-bottom:22px}
+.brand{font-size:18px;font-weight:750;letter-spacing:.02em}.logos{display:flex;gap:8px;flex-wrap:wrap}.logo{border:1px solid var(--line);border-radius:999px;padding:7px 11px;color:#c8d5e7;font-size:11px;letter-spacing:.08em}
+.pill{font-size:11px;color:var(--amber);border:1px solid #765c31;padding:5px 9px;border-radius:999px}
+h1{font-size:clamp(34px,5vw,58px);line-height:1.04;max-width:740px;margin:44px 0 14px;letter-spacing:-.04em}
+.sub{color:var(--muted);max-width:660px;font-size:17px}.grid{display:grid;grid-template-columns:1.1fr .9fr;gap:18px;margin-top:32px}
+.card{background:linear-gradient(145deg,#151f31,#0e1522);border:1px solid var(--line);border-radius:18px;padding:22px;box-shadow:0 18px 50px #0003}
+h2{font-size:16px;margin:0 0 18px}.row{display:flex;justify-content:space-between;gap:16px;padding:13px 0;border-bottom:1px solid #263247}.row:last-child{border:0}
+.k{color:var(--muted);font-size:13px}.v{font-weight:600;text-align:right}.tag{color:var(--blue);font-size:12px}
+.criteria{background:#0a1220;border:1px solid #263247;border-radius:12px;padding:14px;color:#dce7f7}
+.steps{display:grid;gap:10px}.step{display:flex;gap:12px;align-items:center;padding:12px;border:1px solid var(--line);border-radius:12px;background:#0d1522}.num{width:28px;height:28px;display:grid;place-items:center;border-radius:8px;background:#1b2d49;color:var(--blue);font-weight:700}
+button{background:linear-gradient(100deg,#75a9ff,#9bc2ff);color:#08101e;border:0;border-radius:10px;padding:12px 17px;font-weight:750;cursor:pointer;margin-top:16px}
+button:disabled{opacity:.65;cursor:default}.verdict{display:none;margin-top:16px;border:1px solid #2e7059;background:#10291f;border-radius:14px;padding:18px}.verdict strong{color:var(--green);font-size:20px}.small{font-size:12px;color:var(--muted);margin-top:20px}
+@media(max-width:760px){.grid{grid-template-columns:1fr}.top{align-items:flex-start;flex-direction:column}}
+</style></head>
+<body><main>
+<header class="top"><div class="brand">GITBOUNTY COURT <span class="tag">/ INTERNET COURT MISSION</span></div><div class="logos"><span class="logo">INTERNET COURT</span><span class="logo">GENLAYER</span><span class="logo">ARKHAI</span></div></header>
+<div style="margin-top:28px"><span class="pill">PROTOTYPE PREVIEW · NOT CONNECTED TO LIVE NETWORKS</span></div>
+<h1>Escrow the work.<br><span style="color:var(--blue)">Adjudicate the dispute.</span></h1>
+<p class="sub">A GitHub bounty workflow where Arkhai provides conditional escrow and GenLayer evaluates disputed pull requests against the original agreement.</p>
+<section class="grid">
+<div class="card"><h2>Active bounty <span class="tag">#GB-001</span></h2>
+<div class="row"><span class="k">Task</span><span class="v">Implement wallet activity export</span></div>
+<div class="row"><span class="k">Repository</span><span class="v">demo-labs / wallet-tools</span></div>
+<div class="row"><span class="k">Reward</span><span class="v">50 test USDC · Arkhai escrow</span></div>
+<div class="row"><span class="k">Pull request</span><span class="v">#24 · Submitted</span></div>
+<div class="row"><span class="k">Dispute</span><span class="v" style="color:var(--amber)">Client challenged completion</span></div>
+<h2 style="margin-top:22px">Acceptance criteria</h2><div class="criteria">1. Export CSV with timestamp, asset, amount and transaction hash.<br>2. Empty history returns a valid header-only CSV.<br>3. Unit tests cover populated and empty histories.</div>
+<button id="run">Preview adjudication flow</button>
+<div class="verdict" id="verdict"><strong>INCONCLUSIVE</strong><p>Demo-only outcome: evidence snapshot and test results must be verified on the live GitHub PR. The on-chain GenLayer contract is the authoritative adjudicator in a deployed run.</p><span class="tag">Illustrative UI state · no transaction sent</span></div>
+</div>
+<div class="card"><h2>Dispute lifecycle</h2><div class="steps">
+<div class="step"><span class="num">1</span><div><b>Agreement created</b><div class="k">Criteria agreed before work begins</div></div></div>
+<div class="step"><span class="num">2</span><div><b>Arkhai escrow funded</b><div class="k">Conditional bounty held on EVM</div></div></div>
+<div class="step"><span class="num">3</span><div><b>GitHub evidence submitted</b><div class="k">PR metadata and changed files</div></div></div>
+<div class="step"><span class="num">4</span><div><b>GenLayer adjudicates</b><div class="k">Independent validator assessment</div></div></div>
+<div class="step"><span class="num">5</span><div><b>Escrow settlement</b><div class="k">Based on finalized verdict and configured arbiter</div></div></div>
+</div><p class="small">In a live run, replace this preview with real contract reads, transaction hashes, and Arkhai escrow state. Never display a simulated verdict as an on-chain result.</p></div>
+</section>
+<p class="small">GitBounty Court is a testnet mission demo. Arkhai escrow and GenLayer adjudication operate on separate networks; automatic cross-chain settlement requires a verified relay or arbiter adapter.</p>
+</main><script>
+document.getElementById('run').addEventListener('click',function(){const b=this;b.disabled=true;b.textContent='Loading preview…';setTimeout(()=>{document.getElementById('verdict').style.display='block';b.textContent='Preview complete';},900)});
+</script></body></html>
