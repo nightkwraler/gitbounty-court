@@ -1,0 +1,293 @@
+
+* {
+  box-sizing: border-box;
+}
+
+body {
+  margin: 0;
+  min-height: 100vh;
+  background: #090d19;
+  color: #edf1ff;
+  font-family: Inter, Arial, sans-serif;
+}
+
+#app {
+  max-width: 1120px;
+  margin: auto;
+  padding: 28px 24px;
+}
+
+.topbar {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 20px;
+  padding-bottom: 28px;
+  border-bottom: 1px solid #202943;
+}
+
+.brand {
+  display: flex;
+  align-items: center;
+  gap: 13px;
+}
+
+.brand-icon {
+  width: 46px;
+  height: 46px;
+  display: grid;
+  place-items: center;
+  border-radius: 13px;
+  background: linear-gradient(135deg, #8d7aff, #4e5de8);
+  color: white;
+  font-size: 24px;
+  font-weight: 900;
+}
+
+.brand h1 {
+  font-size: 19px;
+  margin: 0 0 5px;
+}
+
+.brand p, .eyebrow {
+  color: #8995b5;
+  font-size: 10px;
+  letter-spacing: 1.7px;
+  font-weight: bold;
+}
+
+.wallet-area {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  flex-wrap: wrap;
+}
+
+#walletAddress {
+  color: #aab6d2;
+  font-size: 12px;
+}
+
+button {
+  border: 0;
+  border-radius: 9px;
+  padding: 13px 19px;
+  background: #8273ff;
+  color: white;
+  font-weight: bold;
+  cursor: pointer;
+  transition: .2s;
+}
+
+button:hover {
+  background: #a094ff;
+  transform: translateY(-1px);
+}
+
+button:disabled {
+  opacity: .5;
+  cursor: not-allowed;
+}
+
+.hero {
+  padding: 70px 0 48px;
+}
+
+.hero h2 {
+  max-width: 700px;
+  font-size: clamp(38px, 6vw, 64px);
+  line-height: 1.08;
+  margin: 17px 0;
+  letter-spacing: -2px;
+}
+
+.hero h2 span {
+  color: #9587ff;
+}
+
+.hero > p, section > p {
+  color: #9ba8c4;
+  line-height: 1.8;
+}
+
+#connection {
+  display: inline-block;
+  margin-top: 15px;
+  padding: 9px 13px;
+  border: 1px solid #315d51;
+  background: #10251f;
+  border-radius: 20px;
+  color: #70dbb1;
+  font-size: 12px;
+}
+
+main > section:not(.hero) {
+  background: #11192b;
+  border: 1px solid #25314c;
+  border-radius: 17px;
+  padding: 27px;
+  margin-bottom: 20px;
+}
+
+.section-heading {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 15px;
+  margin-bottom: 22px;
+}
+
+.section-heading h2, .action-card h2 {
+  margin: 9px 0 0;
+  font-size: 23px;
+}
+
+.status-pill {
+  border: 1px solid #39466a;
+  color: #aeb8d6;
+  border-radius: 30px;
+  padding: 7px 11px;
+  font-size: 9px;
+  letter-spacing: 1px;
+}
+
+#bounty, #verdict {
+  white-space: pre-wrap;
+  overflow-wrap: anywhere;
+  color: #c5d0e9;
+  line-height: 1.8;
+  font-size: 13px;
+}
+
+#verdict {
+  border-left: 3px solid #ff747f;
+  padding-left: 18px;
+}
+
+input {
+  display: block;
+  width: 100%;
+  max-width: 360px;
+  padding: 15px;
+  margin: 20px 0 14px;
+  border: 1px solid #39496c;
+  border-radius: 9px;
+  background: #0a1020;
+  color: white;
+  font-size: 15px;
+}
+
+#actionStatus {
+  color: #aab6d2;
+  overflow-wrap: anywhere;
+  font-size: 12px;
+  margin-top: 17px;
+}
+
+.notice {
+  background: #211c16 !important;
+  border-color: #59452c !important;
+}
+
+.notice strong {
+  color: #e8c58b;
+}
+
+.notice p {
+  color: #b9aa94;
+  line-height: 1.7;
+  font-size: 13px;
+}
+
+footer {
+  display: flex;
+  justify-content: space-between;
+  gap: 15px;
+  padding: 25px 0;
+  color: #697794;
+  font-size: 11px;
+  letter-spacing: .7px;
+}
+
+@media (max-width: 650px) {
+  #app {
+    padding: 20px 15px;
+  }
+
+  .topbar {
+    align-items: flex-start;
+    flex-direction: column;
+  }
+
+  .hero {
+    padding: 48px 0 30px;
+  }
+
+  main > section:not(.hero) {
+    padding: 20px;
+  }
+
+  footer {
+    flex-direction: column;
+  }
+}
+
+/* Court verdict presentation */
+.verdict-result {
+  padding: 22px;
+  margin: 18px 0;
+  border: 1px solid #ef4444;
+  border-radius: 14px;
+  background: rgba(239, 68, 68, 0.09);
+}
+
+.verdict-result.reject {
+  border-color: #ef4444;
+  background: rgba(239, 68, 68, 0.09);
+}
+
+.verdict-result.approve {
+  border-color: #22c55e;
+  background: rgba(34, 197, 94, 0.09);
+}
+
+.verdict-label {
+  display: block;
+  margin-bottom: 8px;
+  color: #a1a1aa;
+  font-size: 11px;
+  letter-spacing: 2px;
+  font-weight: 700;
+}
+
+.verdict-decision {
+  display: block;
+  font-size: 36px;
+  font-weight: 900;
+  letter-spacing: 2px;
+  color: #f87171;
+}
+
+.verdict-result.approve .verdict-decision {
+  color: #4ade80;
+}
+
+.verdict-rationale {
+  line-height: 1.8;
+  color: #d4d4d8;
+  margin: 18px 0;
+}
+
+.verdict-assessment {
+  border-top: 1px solid rgba(255,255,255,0.1);
+  padding-top: 12px;
+}
+
+.verdict-assessment p {
+  padding: 10px 0;
+  margin: 0;
+  color: #cbd5e1;
+  line-height: 1.6;
+  border-bottom: 1px solid rgba(255,255,255,0.06);
+}
+

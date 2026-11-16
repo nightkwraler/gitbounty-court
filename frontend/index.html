@@ -1,0 +1,79 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="theme-color" content="#0b1020" />
+  <title>GitBounty Court | Decentralized Bounty Adjudication</title>
+</head>
+<body>
+  <div id="app">
+    <header class="topbar">
+      <div class="brand">
+        <div class="brand-icon">G</div>
+        <div>
+          <h1>GitBounty Court</h1>
+          <p>DECENTRALIZED WORK ADJUDICATION</p>
+        </div>
+      </div>
+      <div class="wallet-area">
+        <span id="walletAddress">Wallet not connected</span>
+        <button id="connectWallet">Connect Wallet</button>
+      </div>
+    </header>
+
+    <main>
+      <section class="hero">
+        <span class="eyebrow">GENLAYER POWERED · STUDIO NETWORK</span>
+        <h2>Work deserves <span>fair judgment.</span></h2>
+        <p>Transparent, evidence-based bounty adjudication powered by intelligent consensus.</p>
+        <div id="connection">Connecting to GenLayer Studio...</div>
+      </section>
+
+      <section class="bounty-card">
+        <div class="section-heading">
+          <div>
+            <span class="eyebrow">CURRENT CASE</span>
+            <h2>Live Bounty</h2>
+          </div>
+          <span class="status-pill">ON-CHAIN DATA</span>
+        </div>
+        <div id="bounty">Loading bounty details...</div>
+      </section>
+
+      <section class="verdict-card">
+        <div class="section-heading">
+          <div>
+            <span class="eyebrow">CONSENSUS RESULT</span>
+            <h2>Latest Court Verdict</h2>
+          </div>
+          <span class="status-pill">GENLAYER COURT</span>
+        </div>
+        <div id="verdict">Loading verdict...</div>
+      </section>
+
+      <section class="action-card">
+        <span class="eyebrow">SUBMIT EVIDENCE</span>
+        <h2>Adjudicate a Pull Request</h2>
+        <p>Enter a public GitHub pull request number to request consensus-based review.</p>
+        <input id="prNumber" type="number" min="1" placeholder="GitHub PR number" />
+        <button id="adjudicateButton">Submit for Adjudication</button>
+        <p id="actionStatus">No transaction submitted.</p>
+      </section>
+
+      <section class="notice">
+        <strong>Escrow integration status</strong>
+        <p>GenLayer adjudication is connected. Arkhai escrow settlement is not yet connected.</p>
+      </section>
+    </main>
+
+    <footer>
+      <span>GITBOUNTY COURT</span>
+      <span>Built with GenLayer · Studio Network</span>
+    </footer>
+  </div>
+
+  <script type="module" src="/src/main.js"></script>
+</body>
+</html>
