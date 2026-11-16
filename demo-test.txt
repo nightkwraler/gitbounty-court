@@ -1,0 +1,8 @@
+GitBounty Court test pull request
+
+This change adds a test file to demonstrate the GitHub pull request evidence workflow.
+
+Acceptance criteria:
+- The file exists in the repository.
+- The file contains a clear description.
+- The change is submitted through a GitHub pull request.
